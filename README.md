@@ -2,18 +2,18 @@
   Версии PHP: 8.1, 8.2
 
 
-Архитектура
+--Архитектура
 
-  enum TreeType: типы деревьев, вес и количество продукции с 1 дерева
+  `enum TreeType`: типы деревьев, вес и количество продукции с 1 дерева
   
-  class Tree: абстрактный класс для всех деревьев
+  `class Tree`: абстрактный класс для всех деревьев
   
-  class AppleTree, PearTree: классы наследники от Tree
+  `class AppleTree`, PearTree: классы наследники от Tree
   
-  class Garden: Сад в котором растут деревья
+  `class Garden`: Сад в котором растут деревья
   
-  class App: старт основного сценария в Main()
+  `class App`: старт основного сценария в Main()
   
-  class UnitTests: тесты
+  `class UnitTests`: тесты
   
 Вся информация в main.php
