@@ -305,7 +305,8 @@ class Garden implements iGarden
 
 
 /*
-    Класс только для тестов
+    Класс только для тестов.  Не стал реализовывать большой модуль. Всего-лишь 2 метода по шаблону ААА, проверяющие ключи в результате. 
+    По хорошему нужно использовать тут Assert, сделать свой класс для проверки с многим количеством Тестовых дублей.
 */
 class UnitTests
 {
@@ -318,8 +319,8 @@ class UnitTests
     {
         $tests = 
         [
-            "test1" => $this->test1(...),
-            "test2" => $this->test2(...),
+            "test1" => $this->Create_Trees_And_Collect_Production(...),
+            "test2" => $this->Create_Trees_And_Collect_Spesific_Production(...),
         ];
 
         echo ("Начинаем UnitTests\n\n");
@@ -334,7 +335,7 @@ class UnitTests
     }
 
 
-    //точка входа для тестов
+    //точка входа для тестов.
     private function StartTest($tests)
     {
         foreach ($tests as $name => $test)
@@ -359,7 +360,7 @@ class UnitTests
     /**
      * 1) Проверяем что мы можем добавить деревья и собрать с них что-то
      */
-    private function test1()
+    private function Create_Trees_And_Collect_Production()
     {
         //[GIVEN] Главный сад
         $TestComponent = new Garden();
@@ -373,18 +374,18 @@ class UnitTests
         //[WHEN] Собираем продукцию 2 раз
         $result2 = $TestComponent->BeforeCollect();
 
-        //[THEN] Должны что-то получить
+        //[THEN] Должны собрать продукцию
         if (!array_key_exists('data',$result1) || array_key_exists('fault_error',$result1))
             throw new Exception('Hе смогли собрать продукцию');
 
-        //THEN нельзя собрать 2 раз с тех же деревьев
+        //[THEN] нельзя собрать 2 раз с тех же деревьев
         if (!array_key_exists('fault_error',$result2) || array_key_exists('data',$result2))
             throw new Exception('Смогли собрать продукцию 2 раз с тех же деревьев');
     }
     /**
      * 2) Проверяем что мы можем добавить 2 яблони и не сможем собрать 1 грушу или 3 яблони
      */
-    private function test2()
+    private function Create_Trees_And_Collect_Spesific_Production()
     {
         //[GIVEN] Главный сад
         $TestComponent = new Garden();
@@ -399,10 +400,10 @@ class UnitTests
         //[WHEN] Собираем все яблоки которые есть
         $result3 = $TestComponent->BeforeCollect(TreeType::Apple);
 
-        //THEN нет груши
+        //[THEN] нет груши
         if (!array_key_exists('fault_error',$result1) || array_key_exists('data',$result1))
             throw new Exception('Смогли собрать грушу с несуществующих деревьев');
-        //THEN нет 3 яблок
+        //[THEN] нет 3 яблок
         if (!array_key_exists('fault_error',$result2) || array_key_exists('data',$result2))
             throw new Exception('Смогли собрать больше яблок чем деревьев');
         //[THEN] Должны собрать яблоки
