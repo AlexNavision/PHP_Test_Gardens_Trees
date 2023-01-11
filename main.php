@@ -153,7 +153,7 @@ abstract class Tree implements iTreeCreater
     {
         $this -> isCollected = true;
     }
-    abstract function GetWeight() : int; //только для примера, по сути это избыточный код
+    abstract function GetWeight(int $count) : int; //только для примера, по сути это избыточный код
     abstract function GetCount() : int; //только для примера, по сути это избыточный код
 }
 
@@ -176,12 +176,17 @@ final class AppleTree extends Tree
         if ($this -> isCollected)
             return [];
         parent::Collect();
-        return ['key' => parent::GetItemName(), 'values' => ['weight' => $this->GetWeight(), 'count' => $this->GetCount()]];
+        $count = $this->GetCount();
+        return ['key' => parent::GetItemName(), 'values' => ['weight' => $this->GetWeight($count), 'count' => $count]];
     }
 
-    function GetWeight(): int
+    function GetWeight(int $count): int
     {
-        return TreeType::GetTreeWeight(TreeType::Apple);
+        $allweight = 0;
+        for ($i=0; $i < $count; $i++) { 
+            $allweight += TreeType::GetTreeWeight(TreeType::Apple);
+        }
+        return $allweight;
     }
 
     function GetCount(): int
@@ -205,12 +210,17 @@ final class PearTree extends Tree
         if ($this -> isCollected)
             return [];
         parent::Collect();
-        return ['key' => parent::GetItemName(), 'values' => ['weight' => $this->GetWeight(), 'count' => $this->GetCount()]];
+        $count = $this->GetCount();
+        return ['key' => parent::GetItemName(), 'values' => ['weight' => $this->GetWeight($count), 'count' => $count]];
     }
 
-    function GetWeight(): int
+    function GetWeight(int $count): int
     {
-        return TreeType::GetTreeWeight(TreeType::Pear);
+        $allweight = 0;
+        for ($i=0; $i < $count; $i++) { 
+            $allweight += TreeType::GetTreeWeight(TreeType::Pear);
+        }
+        return $allweight;
     }
 
     function GetCount(): int
