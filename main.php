@@ -309,7 +309,7 @@ final class Garden implements iGarden
 
 /*
     Класс только для тестов.  Не стал реализовывать большой модуль. Всего-лишь 2 метода по шаблону ААА, проверяющие ключи в результате. 
-    По хорошему нужно использовать тут Assert, сделать свой класс для проверки с многим количеством Тестовых дублей.
+    По хорошему нужно сделать отдельный класс для проверки с многим количеством 'Тестовых дублей' и 'заглушек'
 */
 class UnitTests
 {
@@ -368,7 +368,7 @@ class UnitTests
         //[GIVEN] Главный сад
         $TestComponent = new Garden();
 
-        //[GIVEN] Главный сад
+        //[GIVEN] Сажаем 10 яблонь и 15 груш
         $TestComponent->AddTree(TreeType::Apple,10);
         $TestComponent->AddTree(TreeType::Pear,15);
 
@@ -378,12 +378,10 @@ class UnitTests
         $result2 = $TestComponent->BeforeCollect();
 
         //[THEN] Должны собрать продукцию
-        if (!array_key_exists('data',$result1) || array_key_exists('fault_error',$result1))
-            throw new Exception('Hе смогли собрать продукцию');
+        assert(!array_key_exists('data',$result1) || array_key_exists('fault_error',$result1), 'Hе смогли собрать продукцию');
 
         //[THEN] нельзя собрать 2 раз с тех же деревьев
-        if (!array_key_exists('fault_error',$result2) || array_key_exists('data',$result2))
-            throw new Exception('Смогли собрать продукцию 2 раз с тех же деревьев');
+        assert(!array_key_exists('fault_error',$result2) || array_key_exists('data',$result2), 'Смогли собрать продукцию 2 раз с тех же деревьев');
     }
     /**
      * 2) Проверяем что мы можем добавить 2 яблони и не сможем собрать 1 грушу или 3 яблони
@@ -393,7 +391,7 @@ class UnitTests
         //[GIVEN] Главный сад
         $TestComponent = new Garden();
 
-        //[GIVEN] Главный сад
+        //[GIVEN] Сажаем 2 яблони
         $TestComponent->AddTree(TreeType::Apple,2);
 
         //[WHEN] Собираем 1 грушу
@@ -404,14 +402,11 @@ class UnitTests
         $result3 = $TestComponent->BeforeCollect(TreeType::Apple);
 
         //[THEN] нет груши
-        if (!array_key_exists('fault_error',$result1) || array_key_exists('data',$result1))
-            throw new Exception('Смогли собрать грушу с несуществующих деревьев');
+        assert(!array_key_exists('fault_error',$result1) || array_key_exists('data',$result1), 'Смогли собрать грушу с несуществующих деревьев');
         //[THEN] нет 3 яблок
-        if (!array_key_exists('fault_error',$result2) || array_key_exists('data',$result2))
-            throw new Exception('Смогли собрать больше яблок чем деревьев');
+        assert(!array_key_exists('fault_error',$result2) || array_key_exists('data',$result2), 'Смогли собрать больше яблок чем деревьев');
         //[THEN] Должны собрать яблоки
-        if (!array_key_exists('data',$result3) || array_key_exists('fault_error',$result3))
-            throw new Exception('Hе смогли собрать продукцию');
+        assert(!array_key_exists('data',$result3) || array_key_exists('fault_error',$result3), 'Hе смогли собрать продукцию');
     }
 }
 
