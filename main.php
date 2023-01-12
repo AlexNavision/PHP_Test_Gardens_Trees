@@ -308,10 +308,21 @@ final class Garden implements iGarden
 
 
 /*
-    Класс только для тестов.  Не стал реализовывать большой модуль. Всего-лишь 2 метода по шаблону ААА, проверяющие ключи в результате. 
+    Классы ниже только для тестов.  Не стал реализовывать большой модуль. Всего-лишь 2 метода по шаблону ААА, проверяющие ключи в результате. 
     По хорошему нужно сделать отдельный класс для проверки с многим количеством 'Тестовых дублей' и 'заглушек'
 */
-class UnitTests
+
+class Assert 
+{
+    protected static function assert(bool $result,string $msg) : bool
+    {
+        if (!$result)
+            throw new Exception($msg);
+        return $result;
+    }
+}
+
+class UnitTests extends Assert
 {
     //тесты
     private $errorsLog = [];
@@ -378,10 +389,10 @@ class UnitTests
         $result2 = $TestComponent->BeforeCollect();
 
         //[THEN] Должны собрать продукцию
-        assert(!array_key_exists('data',$result1) || array_key_exists('fault_error',$result1), 'Hе смогли собрать продукцию');
+        self::assert(!array_key_exists('fault_error',$result1) || array_key_exists('data',$result1), 'Hе смогли собрать продукцию');
 
         //[THEN] нельзя собрать 2 раз с тех же деревьев
-        assert(!array_key_exists('fault_error',$result2) || array_key_exists('data',$result2), 'Смогли собрать продукцию 2 раз с тех же деревьев');
+        self::assert(array_key_exists('fault_error',$result2) || !array_key_exists('data',$result2), 'Смогли собрать продукцию 2 раз с тех же деревьев');
     }
     /**
      * 2) Проверяем что мы можем добавить 2 яблони и не сможем собрать 1 грушу или 3 яблони
@@ -402,11 +413,11 @@ class UnitTests
         $result3 = $TestComponent->BeforeCollect(TreeType::Apple);
 
         //[THEN] нет груши
-        assert(!array_key_exists('fault_error',$result1) || array_key_exists('data',$result1), 'Смогли собрать грушу с несуществующих деревьев');
+        self::assert(array_key_exists('fault_error',$result1) || !array_key_exists('data',$result1), 'Смогли собрать грушу с несуществующих деревьев');
         //[THEN] нет 3 яблок
-        assert(!array_key_exists('fault_error',$result2) || array_key_exists('data',$result2), 'Смогли собрать больше яблок чем деревьев');
+        self::assert(array_key_exists('fault_error',$result2) || !array_key_exists('data',$result2), 'Смогли собрать больше яблок чем деревьев');
         //[THEN] Должны собрать яблоки
-        assert(!array_key_exists('data',$result3) || array_key_exists('fault_error',$result3), 'Hе смогли собрать продукцию');
+        self::assert(!array_key_exists('fault_error',$result3) || array_key_exists('data',$result3), 'Hе смогли собрать продукцию');
     }
 }
 
@@ -444,7 +455,7 @@ final class App
     /*
         просто вывод результата
     */
-    public static function Show($arrayFromCollect)
+    private static function Show($arrayFromCollect)
     {
         if (array_key_exists('fault_error',$arrayFromCollect))
             echo "RESULT: " . $arrayFromCollect["fault_error"] . "\n\n";
