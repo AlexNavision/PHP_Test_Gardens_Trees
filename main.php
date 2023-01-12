@@ -78,7 +78,6 @@ enum TreeType: string
         В любом случае для этого задания тут будет хардкод. Так хотя бы покажу как работают статические методы в enum (как и в обычном классе).
     */
 
-
     public static function GetTreeWeight(TreeType $type): int
     {
         return match($type)
@@ -115,7 +114,7 @@ abstract class Tree
         для версии < 8.1 можно сделать => 
         switch {case: 'Apple' ...; break; case: 'Pear' ... ; break;}
     */
-    public static function CreateTree(TreeType $type): Tree
+    public final static function CreateTree(TreeType $type): Tree
     {
         return match($type) 
         {
@@ -229,7 +228,8 @@ interface iGarden
     function Collect(array $filtertree) : array; //[string data, ?string general_fault]
 }
 
-class Garden implements iGarden
+//Допустим что в этой задаче сад будет только один
+final class Garden implements iGarden
 {
     private array $trees; //child of Tree
 
@@ -418,7 +418,7 @@ class UnitTests
 /**
  * Точка входа в программу
  */
-class App
+final class App
 {
     /*
         Главный сценарий этой задачки
