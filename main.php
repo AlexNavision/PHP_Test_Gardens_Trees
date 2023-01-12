@@ -310,9 +310,10 @@ final class Garden implements iGarden
 /*
     Классы ниже только для тестов.  Не стал реализовывать большой модуль. Всего-лишь 2 метода по шаблону ААА, проверяющие ключи в результате. 
     По хорошему нужно сделать отдельный класс для проверки с многим количеством 'Тестовых дублей' и 'заглушек'
+    В рабочей версии используем PHPUnit_Framework_TestCase
 */
 
-class Assert 
+class Assert //замена PHPUnit_Framework_TestCase, для запуска одного файлика без зависимостей ОНЛАЙН в playground
 {
     protected static function assert(bool $result,string $msg) : bool
     {
@@ -322,7 +323,7 @@ class Assert
     }
 }
 
-class UnitTests extends Assert
+class UnitTests extends Assert //вместо него должен быть PHPUnit_Framework_TestCase
 {
     //тесты
     private $errorsLog = [];
