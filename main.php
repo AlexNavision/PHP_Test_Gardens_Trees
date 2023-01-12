@@ -98,14 +98,7 @@ enum TreeType: string
     }
 }
 
-interface iTreeCreater
-{
-    static function CreateTree(TreeType $type);
-    //Мы так же можем указать тут конструктор с принимаемыми параметрами...
-}
-
-
-abstract class Tree implements iTreeCreater
+abstract class Tree
 {
     protected string $id;
     protected bool $isCollected;
